@@ -1,9 +1,10 @@
 #ifndef GameObject_hpp
 #define GameObject_hpp
+#include <string>
 
 class GameObject {
     public:
-        GameObject(int x, int y, int width, int height);
+        GameObject(int x, int y, int width, int height, std::string symbol);
 
         void moveLeft();
         void moveRight();
@@ -13,12 +14,14 @@ class GameObject {
         int getY() const;
         int getWidth() const;
         int getHeight() const;
+        std::string getSymbol() const;
         
     private:
         int x;
         int y;
         int width;
         int height;
+        std::string symbol;
 };
 
 #endif
