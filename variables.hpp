@@ -13,3 +13,4 @@ extern bool running;
 extern bool gameWon;
 
 #endif // VARIABLES_HPP
+

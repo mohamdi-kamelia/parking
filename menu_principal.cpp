@@ -1,6 +1,7 @@
 #include "menu_principal.hpp"
 
 void renderText(SDL_Renderer* renderer, const std::string& text, int x, int y, SDL_Color color) {
+    // This is a placeholder for real text rendering
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     int textWidth = 10 * text.length();  // Approximate width of the text
     int textHeight = 24;  // Approximate height of the text
@@ -8,7 +9,13 @@ void renderText(SDL_Renderer* renderer, const std::string& text, int x, int y, S
     SDL_RenderFillRect(renderer, &rect);
 }
 
-Difficulty mainMenu(SDL_Renderer* renderer) {
+void renderButton(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color) {
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_Rect rect = {x, y, width, height};
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+Difficulty mainMenu(SDL_Renderer* renderer, SDL_Texture* backgroundTexture) {
     bool menuRunning = true;
     Difficulty selectedDifficulty = EASY;
 
@@ -37,13 +44,13 @@ Difficulty mainMenu(SDL_Renderer* renderer) {
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        
 
-        renderText(renderer, "Select Difficulty", 100, 50, SDL_Color{255, 255, 0, 255});
-        renderText(renderer, "Easy", 100, 100, SDL_Color{255, 255, 0, 255});
-        renderText(renderer, "Medium", 100, 200, SDL_Color{255, 255, 0, 255});
-        renderText(renderer, "Hard", 100, 300, SDL_Color{255, 255, 0, 255});
+
+        // Render buttons with different colors
+        renderButton(renderer, 100, 100, 200, 50, SDL_Color{0, 0, 128, 255});  // Blue for Easy
+        renderButton(renderer, 100, 200, 200, 50, SDL_Color{255, 165, 0, 255}); // Orange for Medium
+        renderButton(renderer, 100, 300, 200, 50, SDL_Color{255, 0, 0, 255});   // Red for Hard
 
         SDL_RenderPresent(renderer);
     }

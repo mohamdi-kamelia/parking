@@ -73,27 +73,20 @@ int main(int argc, char* argv[]) {
     SDL_Window* window = SDL_CreateWindow("Parking Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Difficulty selectedDifficulty = mainMenu(renderer);
+    Difficulty selectedDifficulty = mainMenu(renderer, nullptr);
 
+    std::vector<GameObject> gameObjects;
     loadLevel(gameObjects, renderer, selectedDifficulty);
+
+    bool running = true;
+    GameObject* selectedObject = nullptr;
+    Uint32 yellowCarExitTime = 0;  // Temps de sortie de la voiture jaune
 
     while (running) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
-            }
-
-            if (gameWon) {
-                if (event.type == SDL_MOUSEBUTTONDOWN) {
-                    int x = event.button.x;
-                    int y = event.button.y;
-                    if (x >= 150 && x <= 250 && y >= 300 && y <= 350) {
-                        gameWon = false;
-                        loadLevel(gameObjects, renderer, selectedDifficulty);
-                    }
-                }
-                continue;
             }
 
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -124,10 +117,16 @@ int main(int argc, char* argv[]) {
                 }
                 if (selectedObject->canMove(dx, dy, gameObjects)) {
                     selectedObject->move(dx, dy);
-                    if (selectedObject->isAtPosition(WINDOW_WIDTH, selectedObject->isAtPosition(0, selectedObject->isAtPosition(0, 0)) ? 0 : WINDOW_HEIGHT)) {
-                        gameWon = true;
-                    }
                 }
+            }
+        }
+
+        // Vérifier si la voiture jaune a atteint le bord droit
+        for (const auto& obj : gameObjects) {
+            if (obj.hasReachedRightEdge()) {
+                yellowCarExitTime = SDL_GetTicks();  // Enregistrer le temps de sortie
+                running = false;
+                break;
             }
         }
 
@@ -141,15 +140,11 @@ int main(int argc, char* argv[]) {
             gameObject.render();
         }
 
-        if (gameWon) {
-            renderText(renderer, "Partie Gagnée!", 100, 150, SDL_Color{255, 255, 255, 255});
-            renderText(renderer, "Continuer", 150, 300, SDL_Color{255, 255, 255, 255});
-            SDL_Rect buttonRect = {150, 300, 100, 50};
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-            SDL_RenderFillRect(renderer, &buttonRect);
-        }
-
         SDL_RenderPresent(renderer);
+    }
+
+    if (yellowCarExitTime != 0) {
+        SDL_Delay(3000);  // Attendre 3 secondes avant de fermer
     }
 
     SDL_DestroyRenderer(renderer);

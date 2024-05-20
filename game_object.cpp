@@ -5,13 +5,13 @@ GameObject::GameObject(int gridX, int gridY, SDL_Color color, SDL_Renderer* rend
     if (m_isHorizontal) {
         m_x = gridX * GRID_SIZE;
         m_y = gridY * GRID_SIZE;
-        m_width = CAR_WIDTH;  // Utilise la largeur uniforme
+        m_width = CAR_WIDTH;
         m_height = CAR_HEIGHT;
     } else {
         m_x = gridX * GRID_SIZE;
         m_y = gridY * GRID_SIZE;
-        m_width = CAR_HEIGHT;  // Utilise la hauteur pour la largeur en orientation verticale
-        m_height = CAR_WIDTH;  // Utilise la largeur pour la hauteur en orientation verticale
+        m_width = CAR_HEIGHT;
+        m_height = CAR_WIDTH;
     }
 }
 
@@ -32,7 +32,7 @@ bool GameObject::isSelected() { return m_selected; }
 
 bool GameObject::canMove(int dx, int dy, const std::vector<GameObject>& others) {
     if ((m_isHorizontal && dy != 0) || (!m_isHorizontal && dx != 0)) {
-        return false;  // Empêche le mouvement perpendiculaire à l'orientation
+        return false;
     }
 
     int newX = m_x + dx * GRID_SIZE;
@@ -42,13 +42,12 @@ bool GameObject::canMove(int dx, int dy, const std::vector<GameObject>& others) 
         if (&other != this) {
             if (!(newX + m_width <= other.m_x || newX >= other.m_x + other.m_width ||
                   newY + m_height <= other.m_y || newY >= other.m_y + other.m_height)) {
-                return false;  // Collision détectée
+                return false;
             }
         }
     }
 
-    // Permettre à la voiture jaune de sortir par la droite
-    if (m_color.r == 255 && m_color.g == 255 && m_color.b == 0) {  // Vérifie que c'est la voiture jaune
+    if (m_color.r == 255 && m_color.g == 255 && m_color.b == 0) {
         if (newX + m_width > WINDOW_WIDTH) {
             return true;
         }
@@ -60,4 +59,8 @@ bool GameObject::canMove(int dx, int dy, const std::vector<GameObject>& others) 
 void GameObject::move(int dx, int dy) {
     m_x += dx * GRID_SIZE;
     m_y += dy * GRID_SIZE;
+}
+
+bool GameObject::hasReachedRightEdge() const {
+    return (m_color.r == 255 && m_color.g == 255 && m_color.b == 0) && (m_x + m_width >= WINDOW_WIDTH);
 }

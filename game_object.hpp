@@ -15,8 +15,9 @@ public:
     bool isSelected();
     bool canMove(int dx, int dy, const std::vector<GameObject>& others);
     void move(int dx, int dy);
+    bool hasReachedRightEdge() const; // Nouvelle méthode
 
-protected:
+private:
     int m_x, m_y, m_width, m_height;
     SDL_Color m_color;
     SDL_Renderer* m_renderer;
@@ -24,4 +25,4 @@ protected:
     bool m_isHorizontal;
 };
 
-#endif // GAME_OBJECT_HPP
+#endif
