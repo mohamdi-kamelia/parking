@@ -53,12 +53,12 @@ void loadLevel(std::vector<GameObject>& gameObjects, SDL_Renderer* renderer, Dif
         gameObjects.emplace_back(1, 5, SDL_Color{0, 0, 255, 255}, renderer, true);
         gameObjects.emplace_back(1, 3, SDL_Color{255, 255, 0, 255}, renderer, true);  // Voiture jaune
     } else if (difficulty == HARD) {
-        gameObjects.emplace_back(4, 1, SDL_Color{0, 0, 255, 255}, renderer, false);
-        gameObjects.emplace_back(1, 1, SDL_Color{0, 0, 255, 255}, renderer, true);
-        gameObjects.emplace_back(2, 2, SDL_Color{0, 0, 255, 255}, renderer, false);
+        gameObjects.emplace_back(4, 3, SDL_Color{0, 0, 255, 255}, renderer, false);
+        gameObjects.emplace_back(1, 6, SDL_Color{0, 0, 255, 255}, renderer, true);
+        gameObjects.emplace_back(3, 2, SDL_Color{0, 0, 255, 255}, renderer, false);
         gameObjects.emplace_back(3, 6, SDL_Color{0, 0, 255, 255}, renderer, true);
         gameObjects.emplace_back(4, 0.5, SDL_Color{0, 0, 255, 255}, renderer, false);
-        gameObjects.emplace_back(1, 2, SDL_Color{0, 0, 255, 255}, renderer, true);
+        gameObjects.emplace_back(5, 2, SDL_Color{0, 0, 255, 255}, renderer, true);
         gameObjects.emplace_back(4, 7, SDL_Color{0, 0, 255, 255}, renderer, false);
         gameObjects.emplace_back(1, 3, SDL_Color{255, 255, 0, 255}, renderer, true);  // Voiture jaune
     }
